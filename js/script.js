@@ -49,6 +49,7 @@ window.addEventListener('load', function () {
         drawText('bolder 50px Arial', "white", "Point:" + game.point, SDtopLeft)
         drawText('bolder 50px Arial', wob, "Point:" + game.point, topLeft)
         drawText('bolder 20px Arial', wob, "PRESS SPACE BAR TO SPAUSE/UNSPAUSE", topRight)
+        drawText('bolder 20px Arial', wob, "USE ARROW KEY TO MOVE", {x : canvas.width * 0.8,y : canvas.height * 0.1 + 30})
         
         
 
