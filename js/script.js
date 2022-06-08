@@ -46,6 +46,7 @@ window.addEventListener('load', function () {
 
 
     const game = new Game(canvas.width, canvas.height);
+    game.currentAudio.loop = true;
     
 
     function animate(timestamp) {
@@ -56,9 +57,9 @@ window.addEventListener('load', function () {
         game.update(deltatime);
         game.draw(context);
 
-        drawText('bolder 50px Arial', "white", "Point:" + game.point, SDtopLeft)
-        drawText('bolder 50px Arial', wob, "Point:" + game.point, topLeft)
-        drawText('bolder 20px Arial', wob, "PRESS SPACE BAR TO PAUSE/UNPAUSE", topRight)
+        drawText('bolder 50px Arial', "white", "Point:" + game.point, SDtopLeft);
+        drawText('bolder 50px Arial', wob, "Point:" + game.point, topLeft);
+        drawText('bolder 20px Arial', wob, "PRESS SPACE BAR TO PAUSE/UNPAUSE", topRight);
         drawText('bolder 20px Arial', wob, "USE ARROW KEY TO MOVE", {x : canvas.width * 0.8,y : canvas.height * 0.1 + 30})
         for (var i = 0; i < game.player.attr.lives; i++){
             context.drawImage(
@@ -74,10 +75,11 @@ window.addEventListener('load', function () {
             );
         }
         
-        
-        
-
-        if (!game.gameOver && !game.isPaused && !game.init) requestAnimationFrame(animate);
+        if (!game.gameOver && !game.isPaused && !game.init) {
+            requestAnimationFrame(animate)
+            game.currentAudio.play();
+            
+        };
 
         if( game.init ) {
             context.clearRect(0, 0, canvas.width, canvas.height);
@@ -91,6 +93,7 @@ window.addEventListener('load', function () {
         if (game.gameOver) {
             drawText('bolder 50px Arial', wob, "GAME OVER! PRESS \"SPACE BAR\" TO RESTART", center)
         }
+
     }
     animate(0)
 
@@ -98,14 +101,17 @@ window.addEventListener('load', function () {
         if (e.key === ' ' && !game.gameOver && !game.init) {
             if (!game.isPaused) {
                 game.isPaused = true;
+                game.currentAudio.muted = true;
             }
             else {
                 game.isPaused = false;
+                game.currentAudio.muted = false;
                 animate(0)
             }
         }else if (e.key === ' ' && game.gameOver) {
             game.reset()
             game.gameOver = false;
+            game.currentAudio.currentTime = 0;
             animate(0)
         }else if (e.key === ' ' && game.init) {
             game.init = false;

@@ -17,6 +17,11 @@ export default class Game {
         this.isPaused = false;
         this.init = true;
         this.invincible = false;
+        this.audios = [
+            "./asset/pentakill-lol.mp3",
+            "./asset/Wellerman_Nathan_Evans.mp3"
+        ];
+        this.currentAudio = new Audio(this.audios[1]);
     }
     update(deltatime) {
         this.background.update(this.player.speed);

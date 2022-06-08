@@ -6,7 +6,11 @@ const states = {
     SITTING_RIGHT : 4,
     SITTING_LEFT : 5,
     JUMPING_RIGHT : 6,
-    JUMPING_LEFT : 7
+    JUMPING_LEFT : 7,
+    LANDING_RIGHT : 8,
+    LANDING_LEFT : 9,
+    CURLING_RIGHT : 10,
+    CURLING_LEFT : 11
 }
 
 class State {
@@ -163,7 +167,7 @@ export class JumpingRight extends State{
         this.player.maxFrame = 6;
         
         if( this.player.isGround()) {
-            this.player.vy = -20;
+            this.player.vy = -25;
         }
         else this.player.vy += this.player.weight;
     }
@@ -174,6 +178,10 @@ export class JumpingRight extends State{
         }
         if(input === 'PRESS LEFT'){
             this.player.setState(states.JUMPING_LEFT);
+            this.player.speed = 10;
+        }
+        if(input === 'PRESS RIGHT'){
+            this.player.speed = 10;
         }
     }
 }
@@ -188,7 +196,7 @@ export class JumpingLeft extends State{
         this.player.maxFrame = 6;
         
         if( this.player.isGround()) {
-            this.player.vy = -20;
+            this.player.vy = -25;
         }
         else this.player.vy += this.player.weight;
     }
@@ -199,6 +207,10 @@ export class JumpingLeft extends State{
         }
         if(input === 'PRESS RIGHT'){
             this.player.setState(states.JUMPING_RIGHT);
+            this.player.speed = 10;
+        }
+        if(input === 'PRESS LEFT'){
+            this.player.speed = -10;
         }
     }
 }
