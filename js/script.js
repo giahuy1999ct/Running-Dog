@@ -33,6 +33,16 @@ window.addEventListener('load', function () {
         x : canvas.width * 0.8,
         y : canvas.height * 0.1
     }
+    const icon = {
+        heart : {
+            x : 0,
+            y : 0,
+            img : heart,
+            width : 301,
+            height : 248,
+            frameX : 0
+        }
+    }
 
 
     const game = new Game(canvas.width, canvas.height);
@@ -48,8 +58,22 @@ window.addEventListener('load', function () {
 
         drawText('bolder 50px Arial', "white", "Point:" + game.point, SDtopLeft)
         drawText('bolder 50px Arial', wob, "Point:" + game.point, topLeft)
-        drawText('bolder 20px Arial', wob, "PRESS SPACE BAR TO SPAUSE/UNSPAUSE", topRight)
+        drawText('bolder 20px Arial', wob, "PRESS SPACE BAR TO PAUSE/UNPAUSE", topRight)
         drawText('bolder 20px Arial', wob, "USE ARROW KEY TO MOVE", {x : canvas.width * 0.8,y : canvas.height * 0.1 + 30})
+        for (var i = 0; i < game.player.attr.lives; i++){
+            context.drawImage(
+                icon.heart.img, 
+                icon.heart.x, 
+                icon.heart.y, 
+                icon.heart.width, 
+                icon.heart.height,
+                canvas.width * 0.2 + i * 30, //X on canvas
+                canvas.height * 0.1 - 30, //y on canvas
+                icon.heart.width * 0.1,  // ratio to canvas
+                icon.heart.height * 0.1  // ratio to canvas
+            );
+        }
+        
         
         
 
@@ -62,7 +86,7 @@ window.addEventListener('load', function () {
             drawText('bolder 50px Arial', wob, "PRESS \"SPACE BAR\" TO START", center)
         }
         if (game.isPaused) {
-            drawText('bolder 50px Arial', wob, "SPAUSED", center)
+            drawText('bolder 50px Arial', wob, "PAUSED", center)
         }
         if (game.gameOver) {
             drawText('bolder 50px Arial', wob, "GAME OVER! PRESS \"SPACE BAR\" TO RESTART", center)

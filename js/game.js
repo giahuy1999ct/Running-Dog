@@ -16,6 +16,7 @@ export default class Game {
         this.gameOver = false;
         this.isPaused = false;
         this.init = true;
+        this.invincible = false;
     }
     update(deltatime) {
         this.background.update(this.player.speed);
@@ -37,9 +38,11 @@ export default class Game {
             var dy = (enemy.y + enemy.height / 2) - (this.player.y + this.player.height / 2);
             var delta = Math.sqrt(dx * dx + dy * dy);
 
-            if (delta < this.player.width * 0.5 - 20 + enemy.width * 0.5 - 20) {
-                console.log("game over")
-                this.gameOver = true;
+            if (delta <= this.player.width * 0.5 - 20 + enemy.width * 0.5 - 20 && !this.invincible) {
+                console.log("hit!!")
+                this.takeDmg();
+                enemy.alive = false;
+                if(this.player.attr.lives == 0) this.gameOver = true;
             }
         })
 
@@ -57,5 +60,12 @@ export default class Game {
         this.point = 0;
         this.player.reset();
         this.enemies = [];
+    }
+    takeDmg(){
+        this.player.attr.lives--;
+        this.invincible = true;
+        setInterval(()=>{
+            this.invincible = false;
+        }, 1000);
     }
 }

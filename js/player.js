@@ -98,5 +98,6 @@ export default class Player {
         this.x = this.gWidth/2 - this.width*2;
         this.y = this.gHeight - this.height;
         this.currentState = this.states[0]
+        this.attr.lives = 3;
     }
 }

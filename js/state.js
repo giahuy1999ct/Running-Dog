@@ -170,7 +170,7 @@ export class JumpingRight extends State{
     handleInput(input){
         if( this.player.isGround() ) {
             this.player.vy = 0;
-            this.player.setState(states.RUNNING_RIGHT);
+            this.player.setState(states.STANDING_RIGHT);
         }
         if(input === 'PRESS LEFT'){
             this.player.setState(states.JUMPING_LEFT);
@@ -195,7 +195,7 @@ export class JumpingLeft extends State{
     handleInput(input){
         if( this.player.isGround() ) {
             this.player.vy = 0;
-            this.player.setState(states.RUNNING_LEFT);
+            this.player.setState(states.STANDING_LEFT);
         }
         if(input === 'PRESS RIGHT'){
             this.player.setState(states.JUMPING_RIGHT);
