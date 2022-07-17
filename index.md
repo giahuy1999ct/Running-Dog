@@ -14,6 +14,8 @@
     <img src="./asset/dog.png" id="dog" alt="">
     <img src="./asset/background_single.png" id="background" alt="">
     <img src="./asset/enemy_1.png" id="enemy" alt="">
+    <img src="./asset/heart1.jpg" id="heart" alt="">
+    <img src="./asset/fire.png" id="fire" alt="">
     <script type="module" src="./js/script.js"></script>
 </body>
 

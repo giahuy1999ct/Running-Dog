@@ -7,21 +7,34 @@ import {
     SittingLeft, 
     SittingRight,
     JumpingRight,
-    JumpingLeft
+    JumpingLeft,
+    LandingRight,
+    LandingLeft,
+    CurlingRight,
+    CurlingLeft,
+    LandingCurlingRight,
+    LandingCurlingLeft
 } from './state.js';
 export default class Player {
-    constructor(gWidth, gHeight){
-        this.gWidth = gWidth;
-        this.gHeight = gHeight;
+    constructor(game){
+        this.game = game;
+        this.gWidth = game.gWidth;
+        this.gHeight = game.gHeight;
         this.states = [
-            new StandingRight(this), 
-            new StandingLeft(this), 
-            new RunningRight(this), 
-            new RunningLeft(this),
-            new SittingRight(this),
-            new SittingLeft(this),
-            new JumpingRight(this),
-            new JumpingLeft(this)
+            new StandingRight(this.game), 
+            new StandingLeft(this.game), 
+            new RunningRight(this.game), 
+            new RunningLeft(this.game),
+            new SittingRight(this.game),
+            new SittingLeft(this.game),
+            new JumpingRight(this.game),
+            new JumpingLeft(this.game),
+            new LandingRight(this.game),
+            new LandingLeft(this.game),
+            new CurlingRight(this.game),
+            new CurlingLeft(this.game),
+            new LandingCurlingRight(this.game),
+            new LandingCurlingLeft(this.game)
         ];
         this.currentState = this.states[0];
         this.image = dog;
@@ -38,6 +51,7 @@ export default class Player {
         this.vy = 0;
         this.weight = 1;
         this.radius = this.width/2 - 20
+        this.invicible = false;
         //in developement state
         this.attr = {
             lives : 3,
@@ -59,7 +73,7 @@ export default class Player {
             );
         context.strokeStyle='green';
         context.beginPath();
-        context.arc(this.x + this.width/2, this.y + this.height/2, this.radius, 0, 2 * Math.PI);
+        context.arc(this.x + this.width * 0.5, this.y + this.height * 0.5, this.radius, 0, 2 * Math.PI);
         context.stroke();
     }
     update(input, deltatime){

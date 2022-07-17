@@ -5,7 +5,6 @@ import Background from './background.js';
 export default class Game {
     constructor(gWidth, gHeight) {
         this.point = 0;
-        this.player = new Player(gWidth, gHeight);
         this.input = new InputHandler();
         this.background = new Background(gWidth, gHeight);
         this.enemies = [];
@@ -13,15 +12,15 @@ export default class Game {
         this.enemyInterval = 2000;
         this.gWidth = gWidth;
         this.gHeight = gHeight;
+        this.player = new Player(this);
+        this.particles = [];
         this.gameOver = false;
         this.isPaused = false;
         this.init = true;
-        this.invincible = false;
         this.audios = [
-            "./asset/pentakill-lol.mp3",
             "./asset/Wellerman_Nathan_Evans.mp3"
         ];
-        this.currentAudio = new Audio(this.audios[1]);
+        this.currentAudio = new Audio(this.audios[0]);
     }
     update(deltatime) {
         this.background.update(this.player.speed);
@@ -29,10 +28,15 @@ export default class Game {
 
         if (this.enemyCounter > this.enemyInterval) {
             this.enemyCounter = 0;
-            this.enemies.push(new Enemy(this.gWidth, this.gHeight, this))
+            this.enemies.push(new Enemy(this))
         } else {
             this.enemyCounter += deltatime + (Math.random() * 5 - 10);
         }
+
+        this.particles.forEach((particle, index) => {
+            particle.update();
+            if( particle.markedForDeletion ) this.particles.splice(index, 1);
+        });
 
         this.enemies.forEach(enemy => {
             enemy.update(deltatime);
@@ -43,7 +47,7 @@ export default class Game {
             var dy = (enemy.y + enemy.height / 2) - (this.player.y + this.player.height / 2);
             var delta = Math.sqrt(dx * dx + dy * dy);
 
-            if (delta <= this.player.width * 0.5 - 20 + enemy.width * 0.5 - 20 && !this.invincible) {
+            if (delta <= this.player.width * 0.5 - 20 + enemy.width * 0.5 - 20 ) {
                 console.log("hit!!")
                 this.takeDmg();
                 enemy.alive = false;
@@ -52,14 +56,20 @@ export default class Game {
         })
 
         this.enemies = this.enemies.filter(enemy => enemy.alive);
+        // console.log(this.player.currentState.state + " : " + this.input.lastKey)
     }
     draw(context) {
         this.background.draw(context);
-        this.player.draw(context);
+        
         
         this.enemies.forEach(enemy => {
             enemy.draw(context);
         });
+        this.particles.forEach(particle => {
+            particle.draw(context);
+        });
+
+        this.player.draw(context);
     }
     reset(){
         this.point = 0;
@@ -67,10 +77,7 @@ export default class Game {
         this.enemies = [];
     }
     takeDmg(){
-        this.player.attr.lives--;
-        this.invincible = true;
-        setInterval(()=>{
-            this.invincible = false;
-        }, 1000);
+        if( !this.player.invicible ) this.player.attr.lives--;
+        this.point ++;
     }
 }

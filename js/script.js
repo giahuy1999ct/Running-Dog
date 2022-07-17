@@ -59,8 +59,8 @@ window.addEventListener('load', function () {
 
         drawText('bolder 50px Arial', "white", "Point:" + game.point, SDtopLeft);
         drawText('bolder 50px Arial', wob, "Point:" + game.point, topLeft);
-        drawText('bolder 20px Arial', wob, "PRESS SPACE BAR TO PAUSE/UNPAUSE", topRight);
-        drawText('bolder 20px Arial', wob, "USE ARROW KEY TO MOVE", {x : canvas.width * 0.8,y : canvas.height * 0.1 + 30})
+        drawText('bolder 20px Arial', wob, "PRESS \"P\" TO PAUSE/UNPAUSE", topRight);
+        drawText('bolder 20px Arial', wob, "USE ARROW KEY OR 'WASD' TO MOVE", {x : canvas.width * 0.8,y : canvas.height * 0.1 + 30})
         for (var i = 0; i < game.player.attr.lives; i++){
             context.drawImage(
                 icon.heart.img, 
@@ -77,7 +77,7 @@ window.addEventListener('load', function () {
         
         if (!game.gameOver && !game.isPaused && !game.init) {
             requestAnimationFrame(animate)
-            game.currentAudio.play();
+            // game.currentAudio.play();
             
         };
 
@@ -98,7 +98,7 @@ window.addEventListener('load', function () {
     animate(0)
 
     document.addEventListener('keyup', (e) => {
-        if (e.key === ' ' && !game.gameOver && !game.init) {
+        if ((e.key === 'p' || e.key == 'P') && !game.gameOver && !game.init) {// running state
             if (!game.isPaused) {
                 game.isPaused = true;
                 game.currentAudio.muted = true;
@@ -108,12 +108,12 @@ window.addEventListener('load', function () {
                 game.currentAudio.muted = false;
                 animate(0)
             }
-        }else if (e.key === ' ' && game.gameOver) {
+        }else if (e.key === ' ' && game.gameOver) {// game over state
             game.reset()
             game.gameOver = false;
             game.currentAudio.currentTime = 0;
             animate(0)
-        }else if (e.key === ' ' && game.init) {
+        }else if (e.key === ' ' && game.init) { //init state
             game.init = false;
             animate(0)
         }

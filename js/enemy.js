@@ -1,8 +1,8 @@
 // @ts-nocheck
 export default class Enemy{
-    constructor(gameWith, gameHeight, game){
-        this.gameWith = gameWith;
-        this.gameHeight = gameHeight;
+    constructor(game){
+        this.gameWith = game.gWidth;
+        this.gameHeight = game.gHeight;
         this.width = 160;
         this.height = 119;
         this.x = this.gameWith;
